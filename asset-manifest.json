@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.04315333.chunk.css",
-    "main.js": "/static/js/main.1937ce34.chunk.js",
-    "main.js.map": "/static/js/main.1937ce34.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.3ec8d480.js",
-    "runtime-main.js.map": "/static/js/runtime-main.3ec8d480.js.map",
-    "static/js/2.d4ec2455.chunk.js": "/static/js/2.d4ec2455.chunk.js",
-    "static/js/2.d4ec2455.chunk.js.map": "/static/js/2.d4ec2455.chunk.js.map",
-    "static/js/3.50fff718.chunk.js": "/static/js/3.50fff718.chunk.js",
-    "static/js/3.50fff718.chunk.js.map": "/static/js/3.50fff718.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.04315333.chunk.css.map": "/static/css/main.04315333.chunk.css.map",
-    "static/js/2.d4ec2455.chunk.js.LICENSE.txt": "/static/js/2.d4ec2455.chunk.js.LICENSE.txt"
+    "main.css": "/tolppa/static/css/main.04315333.chunk.css",
+    "main.js": "/tolppa/static/js/main.1937ce34.chunk.js",
+    "main.js.map": "/tolppa/static/js/main.1937ce34.chunk.js.map",
+    "runtime-main.js": "/tolppa/static/js/runtime-main.dbdb3a15.js",
+    "runtime-main.js.map": "/tolppa/static/js/runtime-main.dbdb3a15.js.map",
+    "static/js/2.d4ec2455.chunk.js": "/tolppa/static/js/2.d4ec2455.chunk.js",
+    "static/js/2.d4ec2455.chunk.js.map": "/tolppa/static/js/2.d4ec2455.chunk.js.map",
+    "static/js/3.50fff718.chunk.js": "/tolppa/static/js/3.50fff718.chunk.js",
+    "static/js/3.50fff718.chunk.js.map": "/tolppa/static/js/3.50fff718.chunk.js.map",
+    "index.html": "/tolppa/index.html",
+    "static/css/main.04315333.chunk.css.map": "/tolppa/static/css/main.04315333.chunk.css.map",
+    "static/js/2.d4ec2455.chunk.js.LICENSE.txt": "/tolppa/static/js/2.d4ec2455.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.3ec8d480.js",
+    "static/js/runtime-main.dbdb3a15.js",
     "static/js/2.d4ec2455.chunk.js",
     "static/css/main.04315333.chunk.css",
     "static/js/main.1937ce34.chunk.js"
