@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -38,6 +38,7 @@ const App = (props) => {
   const [token, setToken] = useState(
     window.localStorage.getItem('token') || '',
   )
+  const [intervalActive, setIntervalActive] = useState(true)
   const [endDate, setEndDate] = useState(new Date())
   const [endTime, setEndTime] = useState(new Date())
   const [addQuick, setAddQuick] = useState(true)
@@ -60,26 +61,41 @@ const App = (props) => {
         consumption,
       })
     } catch (e) {
+      const status = e.response.status
+      let message
+      switch (status) {
+        case 400:
+          message = 'You need to set token!'
+          break
+        case 401:
+          message = 'Login failed'
+          break
+        default:
+          message = 'Unknown error!'
+          break
+      }
       setMessage({
         variant: 'error',
-        message: e.toString().includes('400')
-          ? 'You need to set token!'
-          : 'Unknown error!',
+        message,
       })
       console.log(e)
+      setIntervalActive(false)
+      setDetails({ error: true })
     }
   }
 
+  useInterval(fetchDetails, intervalActive ? 5000 : null)
+
   useEffect(() => {
     fetchDetails()
-    const interval = setInterval(fetchDetails, 5000)
-    return () => clearTimeout(interval);
+    return null
   }, [])
 
   const onTokenChange = (event) => {
     const newToken = event.target.value
     window.localStorage.setItem('token', newToken)
     setToken(newToken)
+    setIntervalActive(true)
   }
 
   const submit = async () => {
@@ -128,6 +144,18 @@ const App = (props) => {
           <Card>
             <CardContent>
               <CircularProgress />
+            </CardContent>
+          </Card>
+        </Grid>
+      )
+    if (details.error)
+      return (
+        <Grid item xs={12} className="row">
+          <Card>
+            <CardContent>
+              <Typography variant="h6">
+                Tolppa status is unknown
+              </Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -285,7 +313,7 @@ const App = (props) => {
                   >
                     <Button
                       variant="contained"
-                      disabled={!token}
+                      disabled={!token || (details && details.error)}
                       color="primary"
                       onClick={submit}
                     >
@@ -340,6 +368,24 @@ function findActiveTimer(timers) {
     const end = moment(`${dateEnd} ${timeEnd}`, dateFormat)
     return start.isBefore(now) && end.isAfter(now)
   })
+}
+
+function useInterval(callback, delay) {
+  const savedCallback = useRef()
+
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current()
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay)
+      return () => clearInterval(id)
+    }
+  }, [delay])
 }
 
 export default App
