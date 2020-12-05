@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/tolppa/static/css/main.47a28f10.chunk.css",
-    "main.js": "/tolppa/static/js/main.4909233b.chunk.js",
-    "main.js.map": "/tolppa/static/js/main.4909233b.chunk.js.map",
+    "main.js": "/tolppa/static/js/main.24efdebd.chunk.js",
+    "main.js.map": "/tolppa/static/js/main.24efdebd.chunk.js.map",
     "runtime-main.js": "/tolppa/static/js/runtime-main.8292de40.js",
     "runtime-main.js.map": "/tolppa/static/js/runtime-main.8292de40.js.map",
     "static/js/2.81a7f610.chunk.js": "/tolppa/static/js/2.81a7f610.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.8292de40.js",
     "static/js/2.81a7f610.chunk.js",
     "static/css/main.47a28f10.chunk.css",
-    "static/js/main.4909233b.chunk.js"
+    "static/js/main.24efdebd.chunk.js"
   ]
 }
