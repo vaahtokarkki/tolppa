@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -43,7 +43,16 @@ const App = (props) => {
   const [endTime, setEndTime] = useState(new Date())
   const [addQuick, setAddQuick] = useState(true)
 
-  const fetchDetails = async () => {
+  const setError = message => {
+    setMessage({
+      variant: 'error',
+      message
+    })
+    setIntervalActive(false)
+    setDetails({ error: true })
+  }
+
+  const fetchDetails = useCallback(async () => {
     try {
       const resp = await api.post(`${URL}/details`, { token })
       const {
@@ -61,6 +70,10 @@ const App = (props) => {
         consumption,
       })
     } catch (e) {
+      console.log(e)
+      // Req blocked
+      if (!e.response) return setError('Unknown error!')
+
       const status = e.response.status
       let message
       switch (status) {
@@ -74,22 +87,18 @@ const App = (props) => {
           message = 'Unknown error!'
           break
       }
-      setMessage({
-        variant: 'error',
-        message,
-      })
-      console.log(e)
-      setIntervalActive(false)
-      setDetails({ error: true })
+      setError(message)
     }
-  }
+  }, [token])
 
   useInterval(fetchDetails, intervalActive ? 5000 : null)
 
   useEffect(() => {
-    fetchDetails()
-    return null
-  }, [])
+    async function a() {
+      fetchDetails()
+    }
+    a()
+  }, [fetchDetails])
 
   const onTokenChange = (event) => {
     const newToken = event.target.value
