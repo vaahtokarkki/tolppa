@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/tolppa/static/css/main.47a28f10.chunk.css",
-    "main.js": "/tolppa/static/js/main.24efdebd.chunk.js",
-    "main.js.map": "/tolppa/static/js/main.24efdebd.chunk.js.map",
+    "main.js": "/tolppa/static/js/main.069d8e5e.chunk.js",
+    "main.js.map": "/tolppa/static/js/main.069d8e5e.chunk.js.map",
     "runtime-main.js": "/tolppa/static/js/runtime-main.8292de40.js",
     "runtime-main.js.map": "/tolppa/static/js/runtime-main.8292de40.js.map",
-    "static/js/2.81a7f610.chunk.js": "/tolppa/static/js/2.81a7f610.chunk.js",
-    "static/js/2.81a7f610.chunk.js.map": "/tolppa/static/js/2.81a7f610.chunk.js.map",
+    "static/js/2.ff39d600.chunk.js": "/tolppa/static/js/2.ff39d600.chunk.js",
+    "static/js/2.ff39d600.chunk.js.map": "/tolppa/static/js/2.ff39d600.chunk.js.map",
     "static/js/3.cdbc6f2a.chunk.js": "/tolppa/static/js/3.cdbc6f2a.chunk.js",
     "static/js/3.cdbc6f2a.chunk.js.map": "/tolppa/static/js/3.cdbc6f2a.chunk.js.map",
     "index.html": "/tolppa/index.html",
     "static/css/main.47a28f10.chunk.css.map": "/tolppa/static/css/main.47a28f10.chunk.css.map",
-    "static/js/2.81a7f610.chunk.js.LICENSE.txt": "/tolppa/static/js/2.81a7f610.chunk.js.LICENSE.txt"
+    "static/js/2.ff39d600.chunk.js.LICENSE.txt": "/tolppa/static/js/2.ff39d600.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.8292de40.js",
-    "static/js/2.81a7f610.chunk.js",
+    "static/js/2.ff39d600.chunk.js",
     "static/css/main.47a28f10.chunk.css",
-    "static/js/main.24efdebd.chunk.js"
+    "static/js/main.069d8e5e.chunk.js"
   ]
 }
