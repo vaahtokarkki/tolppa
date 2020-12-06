@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from 'react'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -43,10 +48,10 @@ const App = (props) => {
   const [endTime, setEndTime] = useState(new Date())
   const [addQuick, setAddQuick] = useState(true)
 
-  const setError = message => {
+  const setError = (message) => {
     setMessage({
       variant: 'error',
-      message
+      message,
     })
     setIntervalActive(false)
     setDetails({ error: true })
@@ -104,7 +109,13 @@ const App = (props) => {
     const newToken = event.target.value
     window.localStorage.setItem('token', newToken)
     setToken(newToken)
-    setIntervalActive(true)
+    setIntervalActive(!!newToken)
+  }
+
+  const resetToken = () => {
+    window.localStorage.setItem('token', '')
+    setToken('')
+    setIntervalActive(false)
   }
 
   const submit = async () => {
@@ -121,6 +132,19 @@ const App = (props) => {
         message: 'Timer sent to gateway successfully!',
       })
       setDetails(null)
+      fetchDetails()
+    } catch (e) {
+      setMessage({ variant: 'error', message: e.toString() })
+    }
+  }
+
+  const deleteTimers = async () => {
+    try {
+      await api.delete(`${URL}/timer`, {data: {token}})
+      setMessage({
+        variant: 'success',
+        message: 'All timers deleted successfully!',
+      })
       fetchDetails()
     } catch (e) {
       setMessage({ variant: 'error', message: e.toString() })
@@ -284,7 +308,7 @@ const App = (props) => {
 
   return (
     <div className="container">
-      <Grid>
+      <Grid style={{maxWidth: 300, width: 300}}>
         {renderMessage()}
         {renderDetails()}
 
@@ -333,6 +357,31 @@ const App = (props) => {
               </CardContent>
             </Card>
           </Grid>
+          <Card style={{ textAlign: 'center' }}>
+            <CardContent className="button-card">
+              <Button
+                size="large"
+                color="secondary"
+                variant="outlined"
+                disabled={!token || (details && details.error)}
+                onClick={deleteTimers}
+              >
+                Clear all timers
+              </Button>
+              <Button
+                size="large"
+                color="primary"
+                variant="outlined"
+                onClick={() =>
+                  window.open(
+                    'https://eparking.fi/fi/u#/reservations',
+                  )
+                }
+              >
+                Manage reservations!
+              </Button>
+            </CardContent>
+          </Card>
           <Grid item xs={12} className="row pad">
             <Card style={{ padding: '.7rem .5rem' }}>
               <InputLabel>Add cookies for sign in</InputLabel>
@@ -342,23 +391,17 @@ const App = (props) => {
                 rowsMin={10}
                 rowsMax={10}
               />
+              <Button
+                size="small"
+                color="primary"
+                variant="outlined"
+                onClick={resetToken}
+              >
+                Clear cookies
+              </Button>
             </Card>
           </Grid>
         </MuiPickersUtilsProvider>
-        <Card style={{ textAlign: 'center' }}>
-          <CardContent>
-            <Button
-              size="large"
-              color="primary"
-              variant="outlined"
-              onClick={() =>
-                window.open('https://eparking.fi/fi/u#/reservations')
-              }
-            >
-              Manage reservations!
-            </Button>
-          </CardContent>
-        </Card>
       </Grid>
     </div>
   )
