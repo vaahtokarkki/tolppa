@@ -21,6 +21,12 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Avatar from '@material-ui/core/Avatar'
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 import DateFnsUtils from '@date-io/date-fns'
 import Alert from '@material-ui/lab/Alert'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -140,7 +146,7 @@ const App = (props) => {
 
   const deleteTimers = async () => {
     try {
-      await api.delete(`${URL}/timer`, {data: {token}})
+      await api.delete(`${URL}/timer`, { data: { token } })
       setMessage({
         variant: 'success',
         message: 'All timers deleted successfully!',
@@ -243,6 +249,43 @@ const App = (props) => {
     )
   }
 
+  const renderReservations = () => {
+    if (!details || !details.reservations) return null
+    return (
+      <Grid item xs={12} className="row">
+        <Card>
+          <List>
+            {details.reservations.map(
+              ({ dateStart, timeStart, timeEnd, active }, index) => {
+                const diff = moment(
+                  `${dateStart} ${timeEnd}`,
+                  'DD.MM.YYYY HH:mm',
+                ).diff(
+                  moment(
+                    `${dateStart} ${timeStart}`,
+                    'DD.MM.YYYY HH:mm',
+                  ),
+                  'minutes',
+                )
+                return (
+                  <ListItem key={index}>
+                    <ListItemAvatar>
+                      <PowerSettingsNewIcon />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`${dateStart}, ${timeStart}-${timeEnd}`}
+                      secondary={`${diff} minutes`}
+                    />
+                  </ListItem>
+                )
+              },
+            )}
+          </List>
+        </Card>
+      </Grid>
+    )
+  }
+
   const renderForm = () =>
     addQuick ? (
       <>
@@ -308,10 +351,10 @@ const App = (props) => {
 
   return (
     <div className="container">
-      <Grid style={{maxWidth: 300, width: 300}}>
+      <Grid style={{ maxWidth: 300, width: 300 }}>
         {renderMessage()}
         {renderDetails()}
-
+        {renderReservations()}
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid item xs={12} className="row">
             <Card>
