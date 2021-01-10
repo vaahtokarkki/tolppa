@@ -249,7 +249,7 @@ const App = (props) => {
   }
 
   const renderReservations = () => {
-    if (!details || !details.reservations) return null
+    if (!details || !details.reservations || !details.reservations.length) return null
     return (
       <Grid item xs={12} className="row">
         <Card>
