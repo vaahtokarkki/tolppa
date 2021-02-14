@@ -15,6 +15,7 @@ import Fab from '@material-ui/core/Fab'
 import AccessAlarms from '@material-ui/icons/AccessAlarms'
 import SpeedIcon from '@material-ui/icons/Speed'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Chip from '@material-ui/core/Chip'
 import axios from 'axios'
 import {
   MuiPickersUtilsProvider,
@@ -43,6 +44,7 @@ const URL =
 
 const App = (props) => {
   const [duration, setDuration] = useState(60)
+  const [delay, setDelay] = useState(0)
   const [details, setDetails] = useState(null)
   const [message, setMessage] = useState(null)
   const [token, setToken] = useState(
@@ -136,6 +138,8 @@ const App = (props) => {
         variant: 'success',
         message: 'Timer sent to gateway successfully!',
       })
+      setDuration(60)
+      setDelay(0)
       setDetails(null)
       fetchDetails()
     } catch (e) {
@@ -156,19 +160,19 @@ const App = (props) => {
     }
   }
 
-  const getEndTimeAndDate = () => {
-    if (addQuick)
-      return {
-        endDate: moment().format('DD.MM.YYYY'),
-        endTime: moment().add(duration, 'minutes').format('HH:mm'),
-      }
-    const endDateMoment = moment(endDate)
-    const endTimeMoment = moment(endTime)
-    return {
-      endDate: endDateMoment.format('DD.MM.YYYY'),
-      endTime: endTimeMoment.format('HH:mm'),
-    }
-  }
+  const getEndTimeAndDate = () =>
+    addQuick
+      ? {
+          endDate: moment().format('DD.MM.YYYY'),
+          endTime: moment()
+            .add(delay, 'minutes')
+            .add(duration, 'minutes')
+            .format('HH:mm'),
+        }
+      : {
+          endDate: moment(endDate).format('DD.MM.YYYY'),
+          endTime: moment(endTime).format('HH:mm'),
+        }
 
   const renderMessage = () =>
     message ? (
@@ -249,23 +253,43 @@ const App = (props) => {
   }
 
   const renderReservations = () => {
-    if (!details || !details.reservations || !details.reservations.length) return null
+    if (
+      !details ||
+      !details.reservations ||
+      !details.reservations.length
+    )
+      return null
     return (
       <Grid item xs={12} className="row">
         <Card>
           <List>
             {details.reservations.map(
-              ({ dateStart, timeStart, timeEnd, active }, index) => {
-                const diff = moment(
+              ({ dateStart, timeStart, timeEnd }, index) => {
+                const momentDateStart = moment(
+                  `${dateStart} ${timeStart}`,
+                  'DD.MM.YYYY HH:mm',
+                )
+                const momentDateEnd = moment(
                   `${dateStart} ${timeEnd}`,
                   'DD.MM.YYYY HH:mm',
-                ).diff(
-                  moment(
-                    `${dateStart} ${timeStart}`,
-                    'DD.MM.YYYY HH:mm',
-                  ),
+                )
+                const diff = momentDateEnd.diff(
+                  momentDateStart,
                   'minutes',
                 )
+
+                const chip = moment().isBetween(
+                  momentDateStart,
+                  momentDateEnd,
+                ) ? (
+                  <Chip
+                    variant="outlined"
+                    className="active-timer-chip"
+                    size="small"
+                    label={`${momentDateEnd.diff(moment(), 'minutes')}min left`}
+                  />
+                ) : null
+
                 return (
                   <ListItem key={index}>
                     <ListItemAvatar>
@@ -273,7 +297,12 @@ const App = (props) => {
                     </ListItemAvatar>
                     <ListItemText
                       primary={`${dateStart}, ${timeStart}-${timeEnd}`}
-                      secondary={`${diff} minutes`}
+                      secondary={
+                        <>
+                          <span>{`${diff} minutes`}</span>
+                          {chip}
+                        </>
+                      }
                     />
                   </ListItem>
                 )
@@ -298,6 +327,19 @@ const App = (props) => {
             min={15}
             max={200}
             onChange={(e, value) => setDuration(value)}
+            aria-labelledby="continuous-slider"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <InputLabel htmlFor="dur">
+            Delay {formatMinutes(delay)}
+          </InputLabel>
+          <Slider
+            label="Duration"
+            value={delay}
+            min={0}
+            max={200}
+            onChange={(e, value) => setDelay(value)}
             aria-labelledby="continuous-slider"
           />
         </Grid>
